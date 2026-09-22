@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Rubik:wght@400;500&display=swap');
+
+:root {
+  --color-fondo: #12121c;
+  --color-fondo-claro: #1c1c2b;
+  --color-primario: #6c3ce9;
+  --color-secundario: #ff5e78;
+  --color-acento: #2fe6c9;
+  --color-texto: #f2f2f7;
+  --color-texto-suave: #b8b8c9;
+  --fuente-titulos: 'Poppins', sans-serif;
+  --fuente-texto: 'Rubik', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fuente-texto);
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+}
+
+h1, h2, h3 {
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+}
+
+.texto-suave {
+  color: var(--color-texto-suave);
+}
+
+a {
+  color: var(--color-acento);
+}
+
+/* ===== Navbar ===== */
+#nav-principal {
+  background-color: var(--color-fondo-claro);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.navbar .nav-link,
+.navbar-brand {
+  font-family: var(--fuente-titulos);
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus,
+.navbar .nav-link.active {
+  color: var(--color-acento) !important;
+}
+
+.btn-acento {
+  background-color: var(--color-acento);
+  color: var(--color-fondo);
+  border: none;
+  font-weight: 600;
+}
+
+.btn-acento:hover {
+  background-color: #26c9af;
+  color: var(--color-fondo);
+}
+
+.btn-acento:disabled {
+  opacity: 0.5;
+}
+
+#badge-carrito {
+  position: relative;
+  top: -8px;
+  left: -2px;
+}
+
+/* ===== Hero ===== */
+header#inicio {
+  background: linear-gradient(135deg, var(--color-primario), #2a1a5e);
+  color: var(--color-texto);
+  text-align: center;
+  padding: 64px 24px;
+  border-bottom: 4px solid var(--color-acento);
+}
+
+header#inicio h1 {
+  font-size: 3rem;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+header#inicio p {
+  font-size: 1.1rem;
+  color: var(--color-texto-suave);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ===== Productos ===== */
+#productos h2::after {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 4px;
+  background-color: var(--color-secundario);
+  margin: 12px auto 0;
+  border-radius: 2px;
+}
+
+.tarjeta-producto {
+  background-color: var(--color-fondo-claro);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.tarjeta-producto:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+  border-color: var(--color-acento);
+}
+
+.tarjeta-producto img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.tarjeta-producto .card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.tarjeta-producto .card-title {
+  color: var(--color-acento);
+  font-family: var(--fuente-titulos);
+}
+
+.tarjeta-producto .precio {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.precio-anterior {
+  display: block;
+  text-decoration: line-through;
+  color: var(--color-texto-suave);
+  font-size: 0.9rem;
+}
+
+.precio-oferta {
+  color: var(--color-secundario);
+}
+
+.badge-oferta {
+  background-color: var(--color-secundario);
+  color: var(--color-texto);
+  font-weight: 600;
+}
+
+.tarjeta-producto .btn-agregar-carrito {
+  background-color: var(--color-primario);
+  border: none;
+  color: var(--color-texto);
+  font-weight: 500;
+}
+
+.tarjeta-producto .btn-agregar-carrito:hover {
+  background-color: var(--color-secundario);
+  color: var(--color-texto);
+}
+
+.badge-categoria {
+  background-color: rgba(47, 230, 201, 0.15);
+  color: var(--color-acento);
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.offcanvas-body .list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+footer#contacto {
+  background-color: #0b0b13;
+  border-top: 4px solid var(--color-primario);
+}
+
+footer#contacto a {
+  color: var(--color-texto);
+}
