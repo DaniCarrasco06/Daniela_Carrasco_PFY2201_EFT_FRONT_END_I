@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "nombre": "Diablo I",
+    "descripcion": "Clásico RPG de acción y terror, ambientado en el pueblo de Tristram.",
+    "precio": 14990,
+    "precioOferta": 9990,
+    "categoria": "rpg",
+    "imagen": "img/juego1.jpg"
+  },
+  {
+    "id": 2,
+    "nombre": "Guitar Hero",
+    "descripcion": "Juego musical de ritmo donde simulas tocar guitarra con tus canciones favoritas.",
+    "precio": 19990,
+    "precioOferta": null,
+    "categoria": "musica",
+    "imagen": "img/juego2.jpg"
+  },
+  {
+    "id": 3,
+    "nombre": "Resident Evil",
+    "descripcion": "Survival horror: escapa de una mansión infestada resolviendo puzzles y administrando tus municiones.",
+    "precio": 29990,
+    "precioOferta": 22990,
+    "categoria": "terror",
+    "imagen": "img/resident-evil.jpg"
+  },
+  {
+    "id": 4,
+    "nombre": "Pokémon",
+    "descripcion": "Captura, entrena y combate con criaturas en un viaje por regiones llenas de aventuras.",
+    "precio": 34990,
+    "precioOferta": null,
+    "categoria": "rpg",
+    "imagen": "img/pokemon.jpg"
+  },
+  {
+    "id": 5,
+    "nombre": "Super Mario",
+    "descripcion": "Plataformas clásico: salta, recoge monedas y rescata a la princesa a través de mundos coloridos.",
+    "precio": 39990,
+    "precioOferta": 32990,
+    "categoria": "plataformas",
+    "imagen": "img/super-mario.jpg"
+  },
+  {
+    "id": 6,
+    "nombre": "Horizon",
+    "descripcion": "Aventura de mundo abierto: caza máquinas gigantes en un futuro postapocalíptico.",
+    "precio": 27990,
+    "precioOferta": null,
+    "categoria": "aventura",
+    "imagen": "img/horizon.jpg"
+  },
+  {
+    "id": 7,
+    "nombre": "Doom",
+    "descripcion": "Shooter frenético en primera persona: elimina hordas de demonios con un arsenal devastador.",
+    "precio": 24990,
+    "precioOferta": 17990,
+    "categoria": "accion",
+    "imagen": "img/doom.jpg"
+  }
+]
