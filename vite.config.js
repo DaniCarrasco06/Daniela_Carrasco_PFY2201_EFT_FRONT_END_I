@@ -3,5 +3,5 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/Exp3_S7_DanielaCarrasco/',
+  base: './', // rutas relativas: funciona en gh-pages sin importar el nombre del repositorio
 })

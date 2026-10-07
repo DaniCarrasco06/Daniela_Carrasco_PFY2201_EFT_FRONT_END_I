@@ -60,6 +60,28 @@ function App() {
     return () => controlador.abort();
   }, [intento]);
 
+  // ---------- Valores derivados (se calculan en cada render, no necesitan estado) ----------
+  const totalArticulos = carrito.reduce((acumulado, item) => acumulado + item.cantidad, 0);
+  const totalCarrito = carrito.reduce(
+    (acumulado, item) => acumulado + item.precioUnitario * item.cantidad,
+    0
+  );
+  const idsEnCarrito = carrito.map((item) => item.id);
+
+  // Categorías disponibles según el catálogo actual (más la opción "todas")
+  const categorias = ['todas', ...new Set(productos.map((producto) => producto.categoria))];
+  // Si la categoría seleccionada ya no existe (ej. se eliminó su último juego), se vuelve a "todas"
+  const categoriaVigente = categorias.includes(categoriaActiva) ? categoriaActiva : 'todas';
+  const productosFiltrados =
+    categoriaVigente === 'todas'
+      ? productos
+      : productos.filter((producto) => producto.categoria === categoriaVigente);
+
+  // ---------- Efecto: refleja la cantidad de artículos del carrito en el título de la pestaña ----------
+  useEffect(() => {
+    document.title = totalArticulos > 0 ? `(${totalArticulos}) GameZone` : 'GameZone - Tienda de Videojuegos';
+  }, [totalArticulos]);
+
   // ---------- Acciones del catálogo (agregar / eliminar videojuegos) ----------
   function agregarProducto(datos) {
     setProductos((actuales) => {
@@ -116,23 +138,6 @@ function App() {
     setCarrito([]);
   }
 
-  // ---------- Valores derivados (se calculan en cada render, no necesitan estado) ----------
-  const totalArticulos = carrito.reduce((acumulado, item) => acumulado + item.cantidad, 0);
-  const totalCarrito = carrito.reduce(
-    (acumulado, item) => acumulado + item.precioUnitario * item.cantidad,
-    0
-  );
-  const idsEnCarrito = carrito.map((item) => item.id);
-
-  // Categorías disponibles según el catálogo actual (más la opción "todas")
-  const categorias = ['todas', ...new Set(productos.map((producto) => producto.categoria))];
-  // Si la categoría seleccionada ya no existe (ej. se eliminó su último juego), se vuelve a "todas"
-  const categoriaVigente = categorias.includes(categoriaActiva) ? categoriaActiva : 'todas';
-  const productosFiltrados =
-    categoriaVigente === 'todas'
-      ? productos
-      : productos.filter((producto) => producto.categoria === categoriaVigente);
-
   return (
     <>
       <Navbar totalArticulos={totalArticulos} />
@@ -142,6 +147,7 @@ function App() {
         <p>Tu tienda de videojuegos favorita: los últimos lanzamientos, consolas y accesorios al mejor precio.</p>
       </header>
 
+      <main>
       <section id="productos" className="container py-5">
         <h2 className="text-center mb-4">Productos destacados</h2>
 
@@ -187,6 +193,8 @@ function App() {
           </div>
         </div>
       </section>
+
+      </main>
 
       <Cart
         items={carrito}
