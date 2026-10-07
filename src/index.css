@@ -210,3 +210,29 @@ footer#contacto a {
   border-color: var(--color-secundario);
   color: var(--color-texto);
 }
+
+/* ===== Filtro por categoría (Flexbox) ===== */
+.filtro-categorias {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-filtro {
+  background-color: transparent;
+  border: 2px solid var(--color-primario);
+  color: var(--color-texto);
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.btn-filtro:hover,
+.btn-filtro.activo {
+  background-color: var(--color-primario);
+  color: var(--color-texto);
+}
+
+.btn-filtro.activo {
+  border-color: var(--color-acento);
+}

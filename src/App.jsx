@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import ProductList from './components/ProductList';
 import Cart from './components/Cart';
+import CategoryFilter from './components/CategoryFilter';
 
 // Ruta del JSON local (respeta el "base" de Vite para que funcione en gh-pages)
 const BASE_URL = import.meta.env.BASE_URL;
@@ -14,6 +15,7 @@ function App() {
   const [cargando, setCargando] = useState(true); // true mientras se piden los datos
   const [error, setError] = useState(null);       // mensaje si falla la carga
   const [intento, setIntento] = useState(0);      // cambia al pulsar "Reintentar"
+  const [categoriaActiva, setCategoriaActiva] = useState('todas'); // filtro seleccionado
 
   // ---------- Efecto (useEffect): cargar el catálogo ----------
   // Se ejecuta al montar el componente y cada vez que cambia "intento".
@@ -103,6 +105,15 @@ function App() {
   );
   const idsEnCarrito = carrito.map((item) => item.id);
 
+  // Categorías disponibles según el catálogo actual (más la opción "todas")
+  const categorias = ['todas', ...new Set(productos.map((producto) => producto.categoria))];
+  // Si la categoría seleccionada ya no existe (ej. se eliminó su último juego), se vuelve a "todas"
+  const categoriaVigente = categorias.includes(categoriaActiva) ? categoriaActiva : 'todas';
+  const productosFiltrados =
+    categoriaVigente === 'todas'
+      ? productos
+      : productos.filter((producto) => producto.categoria === categoriaVigente);
+
   return (
     <>
       <Navbar totalArticulos={totalArticulos} />
@@ -129,12 +140,19 @@ function App() {
             </button>
           </div>
         ) : (
-          <ProductList
-            productos={productos}
-            idsEnCarrito={idsEnCarrito}
-            onAgregarAlCarrito={agregarAlCarrito}
-            onQuitarDelCarrito={eliminarDelCarrito}
-          />
+          <>
+            <CategoryFilter
+              categorias={categorias}
+              categoriaActiva={categoriaVigente}
+              onSeleccionar={setCategoriaActiva}
+            />
+            <ProductList
+              productos={productosFiltrados}
+              idsEnCarrito={idsEnCarrito}
+              onAgregarAlCarrito={agregarAlCarrito}
+              onQuitarDelCarrito={eliminarDelCarrito}
+            />
+          </>
         )}
       </section>
 
