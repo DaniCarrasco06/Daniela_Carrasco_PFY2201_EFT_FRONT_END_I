@@ -6,12 +6,10 @@ import CategoryFilter from './components/CategoryFilter';
 import ContactForm from './components/ContactForm';
 import AddGameForm from './components/AddGameForm';
 
-// Ruta del JSON local (respeta el "base" de Vite para que funcione en gh-pages)
 const BASE_URL = import.meta.env.BASE_URL;
 const URL_PRODUCTOS = `${BASE_URL}data/products.json`;
 
 function App() {
-  // ---------- Estados (useState) ----------
   const [productos, setProductos] = useState([]); // catálogo cargado desde el JSON
   const [carrito, setCarrito] = useState([]);     // productos seleccionados
   const [cargando, setCargando] = useState(true); // true mientras se piden los datos
@@ -19,8 +17,7 @@ function App() {
   const [intento, setIntento] = useState(0);      // cambia al pulsar "Reintentar"
   const [categoriaActiva, setCategoriaActiva] = useState('todas'); // filtro seleccionado
 
-  // ---------- Efecto (useEffect): cargar el catálogo ----------
-  // Se ejecuta al montar el componente y cada vez que cambia "intento".
+
   useEffect(() => {
     const controlador = new AbortController();
 
@@ -29,7 +26,6 @@ function App() {
       setError(null);
 
       try {
-        // Pausa de 800 ms para simular la latencia de una API real
         await new Promise((resolver) => setTimeout(resolver, 800));
 
         const respuesta = await fetch(URL_PRODUCTOS, { signal: controlador.signal });
@@ -37,15 +33,13 @@ function App() {
 
         const datos = await respuesta.json();
 
-        // Las imágenes locales del JSON son rutas relativas: se les antepone el base.
         const catalogo = datos.map((producto) => ({
           ...producto,
           imagen: producto.imagen.startsWith('http') ? producto.imagen : `${BASE_URL}${producto.imagen}`,
         }));
 
-        setProductos(catalogo); // actualiza el estado con los datos cargados
+        setProductos(catalogo);
       } catch (err) {
-        // Si el efecto se limpió (AbortError) no se muestra ningún error
         if (err.name !== 'AbortError') {
           setError('No pudimos cargar el catálogo. Intenta nuevamente.');
         }
@@ -56,11 +50,9 @@ function App() {
 
     cargarProductos();
 
-    // Limpieza: cancela la petición si el componente se desmonta o el efecto se repite
     return () => controlador.abort();
   }, [intento]);
 
-  // ---------- Valores derivados (se calculan en cada render, no necesitan estado) ----------
   const totalArticulos = carrito.reduce((acumulado, item) => acumulado + item.cantidad, 0);
   const totalCarrito = carrito.reduce(
     (acumulado, item) => acumulado + item.precioUnitario * item.cantidad,
@@ -68,21 +60,17 @@ function App() {
   );
   const idsEnCarrito = carrito.map((item) => item.id);
 
-  // Categorías disponibles según el catálogo actual (más la opción "todas")
   const categorias = ['todas', ...new Set(productos.map((producto) => producto.categoria))];
-  // Si la categoría seleccionada ya no existe (ej. se eliminó su último juego), se vuelve a "todas"
   const categoriaVigente = categorias.includes(categoriaActiva) ? categoriaActiva : 'todas';
   const productosFiltrados =
     categoriaVigente === 'todas'
       ? productos
       : productos.filter((producto) => producto.categoria === categoriaVigente);
 
-  // ---------- Efecto: refleja la cantidad de artículos del carrito en el título de la pestaña ----------
   useEffect(() => {
     document.title = totalArticulos > 0 ? `(${totalArticulos}) GameZone` : 'GameZone - Tienda de Videojuegos';
   }, [totalArticulos]);
 
-  // ---------- Acciones del catálogo (agregar / eliminar videojuegos) ----------
   function agregarProducto(datos) {
     setProductos((actuales) => {
       const nuevoId = Math.max(0, ...actuales.map((producto) => producto.id)) + 1;
@@ -95,11 +83,9 @@ function App() {
 
   function eliminarProducto(idProducto) {
     setProductos((actuales) => actuales.filter((producto) => producto.id !== idProducto));
-    // Si el juego estaba en el carrito, también se quita para no dejar items huérfanos
     setCarrito((carritoActual) => carritoActual.filter((item) => item.id !== idProducto));
   }
 
-  // ---------- Acciones del carrito ----------
   function agregarAlCarrito(producto) {
     const precioUnitario = producto.precioOferta ?? producto.precio;
 
@@ -119,7 +105,6 @@ function App() {
     });
   }
 
-  // Suma (+1) o resta (-1) unidades; si la cantidad llega a 0 el producto se quita
   function cambiarCantidad(idProducto, cambio) {
     setCarrito((carritoActual) =>
       carritoActual

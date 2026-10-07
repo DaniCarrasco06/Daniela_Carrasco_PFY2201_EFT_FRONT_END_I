@@ -3,8 +3,6 @@ import { validarContacto } from '../utils/validaciones';
 
 const VALORES_INICIALES = { nombre: '', email: '', mensaje: '' };
 
-// Formulario de contacto controlado: cada campo vive en el estado "valores".
-// Valida antes de enviar y muestra mensajes de error por campo.
 function ContactForm() {
   const [valores, setValores] = useState(VALORES_INICIALES);
   const [errores, setErrores] = useState({});
@@ -14,7 +12,6 @@ function ContactForm() {
   function manejarCambio(evento) {
     const { name, value } = evento.target;
     setValores((actuales) => ({ ...actuales, [name]: value }));
-    // Al escribir se limpia el error de ese campo y el mensaje de éxito anterior
     setErrores((actuales) => ({ ...actuales, [name]: undefined }));
     setEnviado(false);
   }
@@ -26,13 +23,11 @@ function ContactForm() {
 
     const primerCampoInvalido = ['nombre', 'email', 'mensaje'].find((campo) => erroresEncontrados[campo]);
     if (primerCampoInvalido) {
-      // Manipulación directa del DOM mediante ref: lleva el cursor al primer campo con error
       campos.current[primerCampoInvalido]?.focus();
       setEnviado(false);
       return;
     }
 
-    // Aquí iría el envío real (API). Por ahora se simula y se limpia el formulario.
     setEnviado(true);
     setValores(VALORES_INICIALES);
   }

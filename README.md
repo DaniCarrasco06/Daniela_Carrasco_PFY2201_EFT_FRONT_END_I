@@ -9,11 +9,6 @@ Sitio web para una tienda de videojuegos: muestra el catálogo en tarjetas, perm
 
 ---
 
-## Requisitos previos
-
-- [Node.js](https://nodejs.org/) 18 o superior (incluye `npm`)
-- [Git](https://git-scm.com/)
-
 ## Instalación y uso
 
 ```bash
@@ -120,6 +115,3 @@ Se usan únicamente características estándar (Flexbox, Grid, `fetch`, ES6+) so
 - [ ] Firefox
 - [ ] Móvil (modo dispositivo o equipo real)
 
-## Control de versiones
-
-El historial de commits documenta el avance: base de la Semana 8 (catálogo con `useEffect` y carrito), filtro por categoría, formulario de contacto con validación, agregar/eliminar juegos, estructura semántica y pruebas automáticas.

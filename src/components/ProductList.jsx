@@ -1,7 +1,6 @@
 import ProductCard from './ProductCard';
 
 function ProductList({ productos, idsEnCarrito, onAgregarAlCarrito, onQuitarDelCarrito, onEliminarProducto }) {
-  // Renderizado condicional: catálogo vacío vs. catálogo con resultados
   if (productos.length === 0) {
     return (
       <div className="text-center texto-suave py-4">

@@ -4,8 +4,6 @@ import { validarJuego } from '../utils/validaciones';
 const VALORES_INICIALES = { nombre: '', categoria: '', precio: '', descripcion: '', imagen: '' };
 const ORDEN_CAMPOS = ['nombre', 'categoria', 'precio', 'descripcion', 'imagen'];
 
-// Formulario para agregar un videojuego al catálogo.
-// No modifica el catálogo directamente: llama a onAgregar (prop) y App actualiza el estado.
 function AddGameForm({ onAgregar }) {
   const [valores, setValores] = useState(VALORES_INICIALES);
   const [errores, setErrores] = useState({});

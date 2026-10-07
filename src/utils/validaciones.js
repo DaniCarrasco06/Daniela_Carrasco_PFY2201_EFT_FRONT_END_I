@@ -1,6 +1,3 @@
-// Funciones de validación reutilizables. Devuelven un objeto { campo: 'mensaje' };
-// si el objeto está vacío, el formulario es válido.
-
 const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export function validarContacto({ nombre, email, mensaje }) {
@@ -32,7 +29,6 @@ export function validarJuego({ nombre, categoria, precio, descripcion, imagen })
   if (!descripcion.trim()) errores.descripcion = 'La descripción es obligatoria.';
   else if (descripcion.trim().length < 10) errores.descripcion = 'La descripción debe tener al menos 10 caracteres.';
 
-  // La imagen es opcional, pero si se ingresa debe ser una URL http(s)
   if (imagen.trim() && !/^https?:\/\//i.test(imagen.trim())) {
     errores.imagen = 'La imagen debe ser una URL que parta con http:// o https://';
   }
