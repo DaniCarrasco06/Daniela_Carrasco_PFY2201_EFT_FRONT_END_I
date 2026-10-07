@@ -3,5 +3,5 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/gamezone-react/',
+  base: '/Exp3_S7_DanielaCarrasco/',
 })

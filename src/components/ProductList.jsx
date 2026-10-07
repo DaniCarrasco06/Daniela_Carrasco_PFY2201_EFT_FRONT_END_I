@@ -1,11 +1,11 @@
 import ProductCard from './ProductCard';
 
-function ProductList({ productos, onAgregarAlCarrito }) {
+function ProductList({ productos, idsEnCarrito, onAgregarAlCarrito, onQuitarDelCarrito }) {
   // Renderizado condicional: catálogo vacío vs. catálogo con resultados
   if (productos.length === 0) {
     return (
       <div className="text-center texto-suave py-4">
-        No se encontraron juegos que coincidan con tu búsqueda.
+        No hay juegos disponibles por el momento.
       </div>
     );
   }
@@ -13,7 +13,13 @@ function ProductList({ productos, onAgregarAlCarrito }) {
   return (
     <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
       {productos.map((producto) => (
-        <ProductCard key={producto.id} producto={producto} onAgregarAlCarrito={onAgregarAlCarrito} />
+        <ProductCard
+          key={producto.id}
+          producto={producto}
+          enCarrito={idsEnCarrito.includes(producto.id)}
+          onAgregarAlCarrito={onAgregarAlCarrito}
+          onQuitarDelCarrito={onQuitarDelCarrito}
+        />
       ))}
     </div>
   );

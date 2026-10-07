@@ -1,8 +1,6 @@
-function formatearPrecio(valor) {
-  return `$${valor.toLocaleString('es-CL')}`;
-}
+import { formatearPrecio } from '../utils/formatearPrecio';
 
-function ProductCard({ producto, onAgregarAlCarrito }) {
+function ProductCard({ producto, enCarrito, onAgregarAlCarrito, onQuitarDelCarrito }) {
   const tieneOferta = producto.precioOferta !== null && producto.precioOferta < producto.precio;
 
   return (
@@ -25,13 +23,25 @@ function ProductCard({ producto, onAgregarAlCarrito }) {
             <p className="precio mb-2">{formatearPrecio(producto.precio)}</p>
           )}
 
-          <button
-            type="button"
-            className="btn btn-agregar-carrito mt-auto"
-            onClick={() => onAgregarAlCarrito(producto)}
-          >
-            Agregar al carrito
-          </button>
+          {/* Renderizado condicional: el botón cambia de texto y estilo según el estado del carrito */}
+          {enCarrito ? (
+            <button
+              type="button"
+              className="btn btn-en-carrito mt-auto"
+              onClick={() => onQuitarDelCarrito(producto.id)}
+              title="Quitar del carrito"
+            >
+              ✓ En el carrito · Quitar
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="btn btn-agregar-carrito mt-auto"
+              onClick={() => onAgregarAlCarrito(producto)}
+            >
+              Agregar al carrito
+            </button>
+          )}
         </div>
       </div>
     </div>

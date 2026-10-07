@@ -1,12 +1,62 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import ProductList from './components/ProductList';
 import Cart from './components/Cart';
-import productos from './data/products';
+
+// Ruta del JSON local (respeta el "base" de Vite para que funcione en gh-pages)
+const BASE_URL = import.meta.env.BASE_URL;
+const URL_PRODUCTOS = `${BASE_URL}data/products.json`;
 
 function App() {
-  const [carrito, setCarrito] = useState([]);
+  // ---------- Estados (useState) ----------
+  const [productos, setProductos] = useState([]); // catálogo cargado desde el JSON
+  const [carrito, setCarrito] = useState([]);     // productos seleccionados
+  const [cargando, setCargando] = useState(true); // true mientras se piden los datos
+  const [error, setError] = useState(null);       // mensaje si falla la carga
+  const [intento, setIntento] = useState(0);      // cambia al pulsar "Reintentar"
 
+  // ---------- Efecto (useEffect): cargar el catálogo ----------
+  // Se ejecuta al montar el componente y cada vez que cambia "intento".
+  useEffect(() => {
+    const controlador = new AbortController();
+
+    async function cargarProductos() {
+      setCargando(true);
+      setError(null);
+
+      try {
+        // Pausa de 800 ms para simular la latencia de una API real
+        await new Promise((resolver) => setTimeout(resolver, 800));
+
+        const respuesta = await fetch(URL_PRODUCTOS, { signal: controlador.signal });
+        if (!respuesta.ok) throw new Error(`Error HTTP ${respuesta.status}`);
+
+        const datos = await respuesta.json();
+
+        // Las imágenes locales del JSON son rutas relativas: se les antepone el base.
+        const catalogo = datos.map((producto) => ({
+          ...producto,
+          imagen: producto.imagen.startsWith('http') ? producto.imagen : `${BASE_URL}${producto.imagen}`,
+        }));
+
+        setProductos(catalogo); // actualiza el estado con los datos cargados
+      } catch (err) {
+        // Si el efecto se limpió (AbortError) no se muestra ningún error
+        if (err.name !== 'AbortError') {
+          setError('No pudimos cargar el catálogo. Intenta nuevamente.');
+        }
+      } finally {
+        if (!controlador.signal.aborted) setCargando(false);
+      }
+    }
+
+    cargarProductos();
+
+    // Limpieza: cancela la petición si el componente se desmonta o el efecto se repite
+    return () => controlador.abort();
+  }, [intento]);
+
+  // ---------- Acciones del carrito ----------
   function agregarAlCarrito(producto) {
     const precioUnitario = producto.precioOferta ?? producto.precio;
 
@@ -26,6 +76,17 @@ function App() {
     });
   }
 
+  // Suma (+1) o resta (-1) unidades; si la cantidad llega a 0 el producto se quita
+  function cambiarCantidad(idProducto, cambio) {
+    setCarrito((carritoActual) =>
+      carritoActual
+        .map((item) =>
+          item.id === idProducto ? { ...item, cantidad: item.cantidad + cambio } : item
+        )
+        .filter((item) => item.cantidad > 0)
+    );
+  }
+
   function eliminarDelCarrito(idProducto) {
     setCarrito((carritoActual) => carritoActual.filter((item) => item.id !== idProducto));
   }
@@ -34,11 +95,13 @@ function App() {
     setCarrito([]);
   }
 
+  // ---------- Valores derivados (se calculan en cada render, no necesitan estado) ----------
   const totalArticulos = carrito.reduce((acumulado, item) => acumulado + item.cantidad, 0);
   const totalCarrito = carrito.reduce(
     (acumulado, item) => acumulado + item.precioUnitario * item.cantidad,
     0
   );
+  const idsEnCarrito = carrito.map((item) => item.id);
 
   return (
     <>
@@ -51,12 +114,34 @@ function App() {
 
       <section id="productos" className="container py-5">
         <h2 className="text-center mb-4">Productos destacados</h2>
-        <ProductList productos={productos} onAgregarAlCarrito={agregarAlCarrito} />
+
+        {/* Renderizado condicional: cargando / error / catálogo */}
+        {cargando ? (
+          <div className="text-center py-5" role="status">
+            <div className="spinner-border text-info" aria-hidden="true"></div>
+            <p className="texto-suave mt-3 mb-0">Cargando catálogo...</p>
+          </div>
+        ) : error ? (
+          <div className="text-center py-4">
+            <p className="text-danger">{error}</p>
+            <button type="button" className="btn btn-acento" onClick={() => setIntento(intento + 1)}>
+              Reintentar
+            </button>
+          </div>
+        ) : (
+          <ProductList
+            productos={productos}
+            idsEnCarrito={idsEnCarrito}
+            onAgregarAlCarrito={agregarAlCarrito}
+            onQuitarDelCarrito={eliminarDelCarrito}
+          />
+        )}
       </section>
 
       <Cart
         items={carrito}
         total={totalCarrito}
+        onCambiarCantidad={cambiarCantidad}
         onEliminarItem={eliminarDelCarrito}
         onVaciarCarrito={vaciarCarrito}
       />

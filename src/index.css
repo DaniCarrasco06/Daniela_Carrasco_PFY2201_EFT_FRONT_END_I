@@ -196,3 +196,17 @@ footer#contacto {
 footer#contacto a {
   color: var(--color-texto);
 }
+
+/* Botón "En el carrito" (estado alternativo del botón de agregar) */
+.tarjeta-producto .btn-en-carrito {
+  background-color: transparent;
+  border: 2px solid var(--color-acento);
+  color: var(--color-acento);
+  font-weight: 600;
+}
+
+.tarjeta-producto .btn-en-carrito:hover {
+  background-color: var(--color-secundario);
+  border-color: var(--color-secundario);
+  color: var(--color-texto);
+}

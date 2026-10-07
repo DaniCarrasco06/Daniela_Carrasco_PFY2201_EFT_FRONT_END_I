@@ -1,8 +1,6 @@
-function formatearPrecio(valor) {
-  return `$${valor.toLocaleString('es-CL')}`;
-}
+import { formatearPrecio } from '../utils/formatearPrecio';
 
-function Cart({ items, total, onEliminarItem, onVaciarCarrito }) {
+function Cart({ items, total, onCambiarCantidad, onEliminarItem, onVaciarCarrito }) {
   return (
     <div
       className="offcanvas offcanvas-end text-bg-dark"
@@ -25,7 +23,7 @@ function Cart({ items, total, onEliminarItem, onVaciarCarrito }) {
           {/* Renderizado condicional: carrito vacío vs. con productos */}
           {items.length === 0 ? (
             <li className="list-group-item bg-transparent text-secondary">
-              Tu carrito está vacío.
+              Tu carrito está vacío. ¡Agrega tu primer juego!
             </li>
           ) : (
             items.map((item) => (
@@ -34,6 +32,24 @@ function Cart({ items, total, onEliminarItem, onVaciarCarrito }) {
                   <div className="fw-semibold">{item.nombre}</div>
                   <div className="small texto-suave">
                     {item.cantidad} x {formatearPrecio(item.precioUnitario)}
+                  </div>
+                  <div className="btn-group btn-group-sm mt-1" role="group" aria-label={`Cantidad de ${item.nombre}`}>
+                    <button
+                      type="button"
+                      className="btn btn-outline-light"
+                      onClick={() => onCambiarCantidad(item.id, -1)}
+                      aria-label={`Quitar una unidad de ${item.nombre}`}
+                    >
+                      −
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-light"
+                      onClick={() => onCambiarCantidad(item.id, 1)}
+                      aria-label={`Agregar una unidad de ${item.nombre}`}
+                    >
+                      +
+                    </button>
                   </div>
                 </div>
                 <button
