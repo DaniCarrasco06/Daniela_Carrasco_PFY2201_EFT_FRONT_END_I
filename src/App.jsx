@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import ProductList from './components/ProductList';
 import Cart from './components/Cart';
 import CategoryFilter from './components/CategoryFilter';
+import ContactForm from './components/ContactForm';
 
 // Ruta del JSON local (respeta el "base" de Vite para que funcione en gh-pages)
 const BASE_URL = import.meta.env.BASE_URL;
@@ -164,7 +165,19 @@ function App() {
         onVaciarCarrito={vaciarCarrito}
       />
 
-      <footer id="contacto" className="text-light pt-5 pb-3">
+      <section id="contacto" className="container py-5">
+        <h2 className="text-center mb-4">Contacto</h2>
+        <div className="row justify-content-center">
+          <div className="col-12 col-md-8 col-lg-6">
+            <p className="texto-suave text-center">
+              ¿Dudas sobre un juego o tu pedido? Escríbele al administrador del sitio.
+            </p>
+            <ContactForm />
+          </div>
+        </div>
+      </section>
+
+      <footer className="text-light pt-5 pb-3">
         <div className="container">
           <div className="row gy-4">
             <div className="col-12 col-md-4">
@@ -177,6 +190,7 @@ function App() {
               <ul className="list-unstyled">
                 <li><a href="#inicio">Inicio</a></li>
                 <li><a href="#productos">Productos</a></li>
+                <li><a href="#contacto">Contacto</a></li>
               </ul>
             </div>
             <div className="col-12 col-md-4">

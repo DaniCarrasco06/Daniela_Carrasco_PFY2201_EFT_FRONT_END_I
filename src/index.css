@@ -99,7 +99,9 @@ header#inicio p {
 }
 
 /* ===== Productos ===== */
-#productos h2::after {
+#productos h2::after,
+#contacto h2::after,
+#administrar h2::after {
   content: "";
   display: block;
   width: 70px;
@@ -188,12 +190,12 @@ header#inicio p {
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-footer#contacto {
+footer {
   background-color: #0b0b13;
   border-top: 4px solid var(--color-primario);
 }
 
-footer#contacto a {
+footer a {
   color: var(--color-texto);
 }
 
@@ -235,4 +237,44 @@ footer#contacto a {
 
 .btn-filtro.activo {
   border-color: var(--color-acento);
+}
+
+/* ===== Formularios (contacto y administración) ===== */
+.formulario-gz {
+  background-color: var(--color-fondo-claro);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.formulario-gz .form-control {
+  background-color: var(--color-fondo);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--color-texto);
+}
+
+.formulario-gz .form-control:focus {
+  border-color: var(--color-acento);
+  box-shadow: 0 0 0 0.2rem rgba(47, 230, 201, 0.2);
+}
+
+.formulario-gz .form-control::placeholder {
+  color: var(--color-texto-suave);
+}
+
+/* Campos del formulario de administración organizados con CSS Grid */
+.grid-formulario {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .grid-formulario {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-formulario .campo-ancho {
+    grid-column: 1 / -1;
+  }
 }
