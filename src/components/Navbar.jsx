@@ -20,6 +20,7 @@ function Navbar({ totalArticulos }) {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item"><a className="nav-link" href="#inicio">Inicio</a></li>
             <li className="nav-item"><a className="nav-link" href="#productos">Productos</a></li>
+            <li className="nav-item"><a className="nav-link" href="#administrar">Administrar</a></li>
             <li className="nav-item"><a className="nav-link" href="#contacto">Contacto</a></li>
           </ul>
 

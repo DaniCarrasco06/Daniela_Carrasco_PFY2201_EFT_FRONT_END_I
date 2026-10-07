@@ -1,6 +1,6 @@
 import ProductCard from './ProductCard';
 
-function ProductList({ productos, idsEnCarrito, onAgregarAlCarrito, onQuitarDelCarrito }) {
+function ProductList({ productos, idsEnCarrito, onAgregarAlCarrito, onQuitarDelCarrito, onEliminarProducto }) {
   // Renderizado condicional: catálogo vacío vs. catálogo con resultados
   if (productos.length === 0) {
     return (
@@ -19,6 +19,7 @@ function ProductList({ productos, idsEnCarrito, onAgregarAlCarrito, onQuitarDelC
           enCarrito={idsEnCarrito.includes(producto.id)}
           onAgregarAlCarrito={onAgregarAlCarrito}
           onQuitarDelCarrito={onQuitarDelCarrito}
+          onEliminarProducto={onEliminarProducto}
         />
       ))}
     </div>

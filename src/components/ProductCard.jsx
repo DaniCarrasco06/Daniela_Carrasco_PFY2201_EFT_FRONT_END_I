@@ -1,6 +1,6 @@
 import { formatearPrecio } from '../utils/formatearPrecio';
 
-function ProductCard({ producto, enCarrito, onAgregarAlCarrito, onQuitarDelCarrito }) {
+function ProductCard({ producto, enCarrito, onAgregarAlCarrito, onQuitarDelCarrito, onEliminarProducto }) {
   const tieneOferta = producto.precioOferta !== null && producto.precioOferta < producto.precio;
 
   return (
@@ -42,6 +42,16 @@ function ProductCard({ producto, enCarrito, onAgregarAlCarrito, onQuitarDelCarri
               Agregar al carrito
             </button>
           )}
+
+          {/* Elimina el videojuego del catálogo (estado de App) */}
+          <button
+            type="button"
+            className="btn btn-sm btn-outline-danger mt-2"
+            onClick={() => onEliminarProducto(producto.id)}
+            aria-label={`Eliminar ${producto.nombre} del catálogo`}
+          >
+            Eliminar del catálogo
+          </button>
         </div>
       </div>
     </div>

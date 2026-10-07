@@ -4,6 +4,7 @@ import ProductList from './components/ProductList';
 import Cart from './components/Cart';
 import CategoryFilter from './components/CategoryFilter';
 import ContactForm from './components/ContactForm';
+import AddGameForm from './components/AddGameForm';
 
 // Ruta del JSON local (respeta el "base" de Vite para que funcione en gh-pages)
 const BASE_URL = import.meta.env.BASE_URL;
@@ -58,6 +59,23 @@ function App() {
     // Limpieza: cancela la petición si el componente se desmonta o el efecto se repite
     return () => controlador.abort();
   }, [intento]);
+
+  // ---------- Acciones del catálogo (agregar / eliminar videojuegos) ----------
+  function agregarProducto(datos) {
+    setProductos((actuales) => {
+      const nuevoId = Math.max(0, ...actuales.map((producto) => producto.id)) + 1;
+      return [
+        ...actuales,
+        { ...datos, id: nuevoId, imagen: datos.imagen || `${BASE_URL}img/juego1.jpg` },
+      ];
+    });
+  }
+
+  function eliminarProducto(idProducto) {
+    setProductos((actuales) => actuales.filter((producto) => producto.id !== idProducto));
+    // Si el juego estaba en el carrito, también se quita para no dejar items huérfanos
+    setCarrito((carritoActual) => carritoActual.filter((item) => item.id !== idProducto));
+  }
 
   // ---------- Acciones del carrito ----------
   function agregarAlCarrito(producto) {
@@ -152,9 +170,22 @@ function App() {
               idsEnCarrito={idsEnCarrito}
               onAgregarAlCarrito={agregarAlCarrito}
               onQuitarDelCarrito={eliminarDelCarrito}
+              onEliminarProducto={eliminarProducto}
             />
           </>
         )}
+      </section>
+
+      <section id="administrar" className="container py-5">
+        <h2 className="text-center mb-4">Administrar catálogo</h2>
+        <div className="row justify-content-center">
+          <div className="col-12 col-lg-8">
+            <p className="texto-suave text-center">
+              Agrega un videojuego nuevo; para quitar uno usa el botón «Eliminar del catálogo» de su tarjeta.
+            </p>
+            <AddGameForm onAgregar={agregarProducto} />
+          </div>
+        </div>
       </section>
 
       <Cart
